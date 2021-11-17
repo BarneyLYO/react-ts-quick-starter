@@ -24,7 +24,8 @@ const extendsList = [
   'plugin:unicorn/recommended',
   'plugin:promise/recommended',
   'plugin:@typescript-eslint/recommended',
-  'plugin:prettier/recommended',
+  'prettier',
+  // 'plugin:prettier/recommended',
   // 'prettier/@typescript-eslint',
   // 'prettier/react',
   // 'prettier/unicorn',
@@ -46,7 +47,7 @@ const plugins = [
   'unicorn',
   'promise',
   '@typescript-eslint',
-  'prettier',
+  // 'prettier',
 ]
 
 const rules = {
