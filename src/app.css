@@ -1,0 +1,6 @@
+.a {
+  display: flex;
+  color: red;
+  transform: scale(0.5);
+  transition: all 0.5s;
+}

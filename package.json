@@ -12,15 +12,24 @@
     "lint-eslint": "eslint -c .eslintrc.js --ext .ts,.tsx,.js src",
     "lint-stylelint": "stylelint --config .stylelintrc.js src/**/*.{less,css,scss}",
     "lint": "yarn lint-eslint && yarn lint-stylelint",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "build": "cross-env NODE_ENV=production webpack --config ./scripts/config/webpack.prod.js",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --config ./scripts/config/webpack.dev.js"
   },
   "devDependencies": {
     "@commitlint/cli": "^14.1.0",
     "@commitlint/config-conventional": "^14.1.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
+    "autoprefixer": "^10.4.0",
     "babel-eslint": "^10.1.0",
+    "chalk": "^4.1.2",
+    "clean-webpack-plugin": "^4.0.0",
     "conventional-changelog-cli": "^2.1.1",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.5.1",
+    "dart-sass": "^1.25.0",
+    "detect-port-alt": "^1.1.6",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.0",
     "eslint-config-airbnb-typescript": "^15.0.0",
@@ -33,16 +42,35 @@
     "eslint-plugin-react": "^7.27.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-unicorn": "^38.0.1",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
     "husky": "4.3.8",
+    "ip": "^1.1.5",
+    "is-plain-object": "^5.0.0",
+    "is-root": "^3.0.0",
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
     "lint-staged": "^12.0.2",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-loader": "^6.2.0",
+    "postcss-normalize": "^10.0.1",
+    "postcss-preset-env": "^7.0.0",
     "prettier": "^2.4.1",
+    "sass": "^1.43.4",
+    "sass-loader": "^12.3.0",
+    "style-loader": "^3.3.1",
     "stylelint": "^14.1.0",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-standard": "^24.0.0",
     "stylelint-declaration-block-no-ignored-properties": "^2.5.0",
     "stylelint-order": "^5.0.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.64.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.5.0",
+    "webpack-merge": "^5.8.0"
   },
   "dependencies": {
     "react": "^17.0.2"
@@ -63,5 +91,11 @@
     "*.{ts,tsx,js,json,html,yml,css,less,scss,md}": [
       "prettier --write"
     ]
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "ie >= 9",
+    "not op_mini all"
+  ]
 }

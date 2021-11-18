@@ -1,6 +1,7 @@
 const OFF = 0
 const WARN = 1
 const ERROR = 2
+const eration = 3
 
 const environment = {
   browser: true,
@@ -8,7 +9,7 @@ const environment = {
   node: true,
 }
 
-const setting = {
+const settings = {
   'import/resolver': {
     node: {
       extensions: ['.tsx', '.ts', '.js', '.json'],
@@ -61,11 +62,16 @@ const rules = {
       js: 'never',
     },
   ],
+  'import/no-extraneous-dependencies': [
+    ERROR,
+    { devDependencies: true },
+  ],
 }
 
 // eslint-disable-next-line unicorn/prefer-module
 module.exports = {
   env: environment,
+  settings,
   extends: extendsList,
   parser: parser.name,
   parserOptions: parser.options,
