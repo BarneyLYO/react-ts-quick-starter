@@ -1,7 +1,6 @@
 const OFF = 0
 const WARN = 1
 const ERROR = 2
-const eration = 3
 
 const environment = {
   browser: true,
@@ -14,6 +13,7 @@ const settings = {
     node: {
       extensions: ['.tsx', '.ts', '.js', '.json'],
     },
+    typescript: {},
   },
 }
 
@@ -66,6 +66,16 @@ const rules = {
     ERROR,
     { devDependencies: true },
   ],
+  'unicorn/prevent-abbreviations': OFF,
+  'react/jsx-filename-extension': OFF,
+  'react/function-component-definition': [
+    ERROR,
+    {
+      namedComponents: 'arrow-function',
+      unnamedComponents: 'arrow-function',
+    },
+  ],
+  'import/prefer-default-export': OFF,
 }
 
 // eslint-disable-next-line unicorn/prefer-module

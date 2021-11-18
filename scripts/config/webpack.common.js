@@ -23,7 +23,7 @@ const OUT_PUT_FILE_NAME = `js/[name]${
 }.js`
 
 const entry = {
-  app: resolve(PROJECT_PATH, './src/app.js'),
+  app: resolve(PROJECT_PATH, './src/index.tsx'),
 }
 
 const output = {
@@ -147,13 +147,32 @@ const IMG_LOADER = {
   ],
 }
 
+const BABEL_LOADER = {
+  test: /\.(tsx?|jsx?)$/,
+  loader: 'babel-loader',
+  options: {
+    cacheDirectory: true,
+  },
+  exclude: /node_modules/,
+}
+
 const rules = [
   STYLE_LODERS,
   LESS_LODERS,
   SCSS_LOADER,
   FONT_LOADER,
   IMG_LOADER,
+  BABEL_LOADER,
 ]
+
+const resolveExtions = {
+  extensions: ['.tsx', '.ts', '.js', '.json', '.jsx'],
+  alias: {
+    Src: resolve(PROJECT_PATH, './src'),
+    Components: resolve(PROJECT_PATH, './src/components'),
+    Utils: resolve(PROJECT_PATH, './src/utils'),
+  },
+}
 
 module.exports = {
   entry,
@@ -162,4 +181,5 @@ module.exports = {
   module: {
     rules,
   },
+  resolve: resolveExtions,
 }
