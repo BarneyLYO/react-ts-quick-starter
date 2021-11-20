@@ -6,7 +6,14 @@ const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
 const { SERVER_HOST, SERVER_PORT } = require('../constant')
 
+/* PROXY SETTING */
+const PROXY_SETTING = require('../../src/set-proxy')
+
 const mode = 'development'
+
+const proxy = {
+  // ...PROXY_SETTING
+}
 
 module.exports = merge(common, {
   mode,
@@ -21,5 +28,6 @@ module.exports = merge(common, {
     client: {
       logging: 'none',
     },
+    proxy,
   },
 })

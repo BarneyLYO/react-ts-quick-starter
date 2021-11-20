@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-array-push-push */
 /* eslint-disable unicorn/import-style */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable unicorn/prefer-module */
@@ -7,13 +8,21 @@ const { resolve } = require('path')
 
 /* plugins */
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const {
+  CleanWebpackPlugin,
+} = require('clean-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
+const WebpackBar = require('webpackbar')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const TeserPlugin = require('terser-webpack-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+
+/* post css plugin */
 const POST_CSS_PLUGIN_BUG_FIXER = require('postcss-flexbugs-fixes')
 const POST_CSS_PLUGIN_PRESET_ENV = require('postcss-preset-env')
 const POST_CSS_PLUGIN_NORMALIZER = require('postcss-normalize')
 const POST_CSS_AUTOPREFIX = require('autoprefixer')
-const {
-  CleanWebpackPlugin,
-} = require('clean-webpack-plugin')
 
 /* Customized */
 const { PROJECT_PATH, IS_DEV } = require('../constant')
@@ -55,10 +64,54 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
 
 const cleanWebpackPlugin = new CleanWebpackPlugin()
 
-const plugins = [htmlWebpackPlugin, cleanWebpackPlugin]
+const copyPlugin = new CopyPlugin({
+  patterns: [
+    {
+      context: resolve(PROJECT_PATH, './public'),
+      from: '*',
+      to: resolve(PROJECT_PATH, './dist'),
+      toType: 'dir',
+      globOptions: {
+        dot: true,
+        gitignore: true,
+        ignore: ['**/index.html'],
+      },
+    },
+  ],
+})
+
+const webpackbar = new WebpackBar({
+  name: IS_DEV ? 'bootstrapping' : 'packaging',
+  color: '#f68c16',
+})
+
+const forkTsCheckerWebpackPlugin =
+  new ForkTsCheckerWebpackPlugin({
+    typescript: {
+      configFile: resolve(PROJECT_PATH, './tsconfig.json'),
+    },
+  })
+
+const plugins = [
+  htmlWebpackPlugin,
+  cleanWebpackPlugin,
+  copyPlugin,
+  webpackbar,
+  forkTsCheckerWebpackPlugin,
+]
+
+if (!IS_DEV) {
+  plugins.push(
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].[contenthash:8].css',
+      chunkFilename: 'css/[name].[contenthash:8].css',
+      ignoreOrder: false,
+    }),
+  )
+}
 
 const getCssLoaders = (importLoaders) => [
-  'style-loader',
+  IS_DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
   {
     loader: 'css-loader',
     options: {
@@ -174,6 +227,34 @@ const resolveExtions = {
   },
 }
 
+const terserPlugin = new TeserPlugin({
+  extractComments: false,
+  terserOptions: {
+    compress: {
+      pure_funcs: ['console.log'],
+    },
+  },
+})
+
+const optimizeCssAssetsPlugin =
+  new OptimizeCssAssetsPlugin()
+
+const minimizer = []
+
+if (!IS_DEV) {
+  minimizer.push(terserPlugin)
+  minimizer.push(optimizeCssAssetsPlugin)
+}
+
+const optimization = {
+  splitChunks: {
+    chunks: 'all',
+    minSize: 0,
+  },
+  minimize: !IS_DEV,
+  minimizer,
+}
+
 module.exports = {
   entry,
   output,
@@ -182,4 +263,5 @@ module.exports = {
     rules,
   },
   resolve: resolveExtions,
+  optimization,
 }
