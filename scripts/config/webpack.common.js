@@ -274,10 +274,8 @@ module.exports = {
   entry,
   cache,
   resolve: resolveExtions,
-  // externals,
   plugins,
   module: {
     rules,
   },
-  // optimization,
 }

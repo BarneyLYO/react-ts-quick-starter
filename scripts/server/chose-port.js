@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const detect = require('detect-port-alt')
 const chalk = require('chalk')
 
