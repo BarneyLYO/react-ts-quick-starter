@@ -11,5 +11,4 @@ const PROXY_SETTING = {
     },
   },
 }
-// eslint-disable-next-line unicorn/prefer-module
 module.exports = PROXY_SETTING

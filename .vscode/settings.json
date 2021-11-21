@@ -5,9 +5,7 @@
     "yarn.lock": true
   },
   "editor.formatOnSave": true,
-  "eslint.workingDirectories": [
-        "."
-  ],
+  "eslint.workingDirectories": ["./src"],
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -18,7 +16,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.fixAll.stylelint": true
-
   },
   "css.validate": false,
   "less.validate": false,

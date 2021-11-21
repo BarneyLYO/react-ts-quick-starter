@@ -3,7 +3,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { App } from 'Src/app'
 
-// eslint-disable-next-line unicorn/prefer-module
 module?.hot?.accept()
 
 ReactDOM.render(

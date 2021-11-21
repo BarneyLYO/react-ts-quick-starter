@@ -1,33 +1,50 @@
-/* eslint-disable unicorn/prevent-abbreviations */
-/* eslint-disable unicorn/prefer-module */
-/* eslint-disable @typescript-eslint/no-var-requires */
-
+/* eslint-disable global-require */
+/* eslint-disable import/no-dynamic-require */
+const Webpack = require('webpack')
+const ErrorOverlayPlugin = require('error-overlay-webpack-plugin')
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common')
-const { SERVER_HOST, SERVER_PORT } = require('../constant')
-
-/* PROXY SETTING */
-const PROXY_SETTING = require('../../src/set-proxy')
+const paths = require('../paths')
 
 const mode = 'development'
+const devtool = 'cheap-module-source-map'
+const target = 'web'
+const output = {
+  filename: 'js/[name].js',
+  path: paths.appBuild,
+}
+const devServer = {
+  compress: true,
+  stats: 'errors-only',
+  clientLoglevel: 'silent',
+  open: true,
+  hot: true,
+  noInfo: true,
+  // proxy: {
+  //   // ...require(paths.appProxySetup),
+  // },
+}
 
-const proxy = {
-  // ...PROXY_SETTING
+const plugins = [
+  new Webpack.HotModuleReplacementPlugin(),
+  new ErrorOverlayPlugin(),
+]
+
+const optimization = {
+  minimize: false,
+  minimizer: [],
+  splitChunks: {
+    chunks: 'all',
+    minSize: 0,
+  },
 }
 
 module.exports = merge(common, {
   mode,
-  stats: 'errors-only',
-  devtool: 'eval-source-map',
-  devServer: {
-    host: SERVER_HOST, // 指定 host，不设置的话默认是localhost
-    port: SERVER_PORT, // 指定端口，默认是8080
-    compress: true, // 是否启用 gzip 压缩
-    open: true, // 打开默认浏览器
-    hot: true, // 热更新
-    client: {
-      logging: 'none',
-    },
-    proxy,
-  },
+  devtool,
+  target,
+  output,
+  devServer,
+  plugins,
+  optimization,
 })

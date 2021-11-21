@@ -22,7 +22,6 @@ const extendsList = [
   'airbnb/hooks',
   // 'airbnb-typescript',
   'plugin:react/recommended',
-  'plugin:unicorn/recommended',
   'plugin:promise/recommended',
   'plugin:@typescript-eslint/recommended',
   'prettier',
@@ -43,13 +42,7 @@ const parser = {
   },
 }
 
-const plugins = [
-  'react',
-  'unicorn',
-  'promise',
-  '@typescript-eslint',
-  // 'prettier',
-]
+const plugins = ['react', 'promise', '@typescript-eslint']
 
 const rules = {
   'import/extensions': [
@@ -66,7 +59,6 @@ const rules = {
     ERROR,
     { devDependencies: true },
   ],
-  'unicorn/prevent-abbreviations': OFF,
   'react/jsx-filename-extension': OFF,
   'react/function-component-definition': [
     ERROR,
@@ -76,9 +68,9 @@ const rules = {
     },
   ],
   'import/prefer-default-export': OFF,
+  '@typescript-eslint/no-var-requires': OFF,
 }
 
-// eslint-disable-next-line unicorn/prefer-module
 module.exports = {
   env: environment,
   settings,

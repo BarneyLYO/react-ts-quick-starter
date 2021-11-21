@@ -1,58 +1,76 @@
-/* eslint-disable unicorn/prevent-abbreviations */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable unicorn/prefer-module */
-/* eslint-disable @typescript-eslint/no-var-requires */
-
-// eslint-disable-next-line unicorn/import-style
-const { resolve } = require('path')
-const { glob } = require('glob')
 const { merge } = require('webpack-merge')
-const PurgeCssPlugin = require('purgecss-webpack-plugin')
-const webpack = require('webpack')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
+const {
+  CleanWebpackPlugin,
+} = require('clean-webpack-plugin')
 const {
   BundleAnalyzerPlugin,
 } = require('webpack-bundle-analyzer')
-const { PROJECT_PATH } = require('../constant')
 const common = require('./webpack.common')
-
-const STYLE_PATHS = glob.sync(
-  `${resolve(
-    PROJECT_PATH,
-    './src',
-  )}/**/*.{tsx,scss,less,css}`,
-  {
-    nodir: true,
-  },
-)
-
-const PURGE_CSS_PLUGIN = new PurgeCssPlugin({
-  paths: STYLE_PATHS,
-  whitelist: ['html', 'body'],
-})
-
-const BANNER_PLUGIN = new webpack.BannerPlugin({
-  raw: true,
-  banner: `
-    /* @preserve Powered by BL */
-  `,
-})
-
-const BUNDLE_ANALYZER_PLUGIN = new BundleAnalyzerPlugin({
-  analyzerMode: 'server',
-  analyzerHost: '127.0.0.1',
-  analyzerPort: 8888,
-})
+const paths = require('../paths')
+const {
+  shouldOpenAnalyzer,
+  ANALYZER_HOST,
+  ANALYZER_PORT,
+} = require('../conf')
 
 const mode = 'production'
+const devtool = false
+const target = 'browserslist'
+const output = {
+  filename: 'js/[name].[contenthash:8].js',
+  path: paths.appBuild,
+  assetModuleFilename:
+    'images/[name].[contenthash:8].[ext]',
+}
+
+const plugins = [
+  new CleanWebpackPlugin(),
+  new MiniCssExtractPlugin({
+    filename: 'css/[name].[contenthash:8].css',
+    chunkFilename: 'css/[name].[contenthash:8].chunk.css',
+  }),
+]
+
+if (shouldOpenAnalyzer) {
+  plugins.push(
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'server',
+      analyzerHost: ANALYZER_HOST,
+      analyzerPort: ANALYZER_PORT,
+    }),
+  )
+}
+
+const optimization = {
+  minimize: true,
+  minimizer: [
+    new TerserPlugin({
+      extractComments: false,
+      terserOptions: {
+        compress: {
+          pure_funcs: ['console.log'],
+        },
+      },
+    }),
+    new CssMinimizerPlugin(),
+  ],
+  splitChunks: {
+    chunks: 'all',
+    minSize: 0,
+  },
+}
 
 /**
  * Webpack 5 you dont need to specify the devtool
  */
 module.exports = merge(common, {
   mode,
-  plugins: [
-    PURGE_CSS_PLUGIN,
-    BANNER_PLUGIN,
-    BUNDLE_ANALYZER_PLUGIN,
-  ],
+  devtool,
+  target,
+  output,
+  plugins,
+  optimization,
 })

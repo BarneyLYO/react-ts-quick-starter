@@ -1,14 +1,12 @@
 /* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable unicorn/prefer-module */
 const detect = require('detect-port-alt')
-const isRoot = require('is-root')
 const chalk = require('chalk')
+
+const isRoot = process.getuid && process.geteuid === 0
 
 const isInteractive = process.stdout.isTTY
 
 async function choosePort(port, host) {
-  // eslint-disable-next-line unicorn/prevent-abbreviations
   const resPort = await detect(port, host)
   if (resPort === port) {
     return resPort
@@ -23,7 +21,6 @@ async function choosePort(port, host) {
     return resPort
   }
   console.log(chalk.red(message))
-  // eslint-disable-next-line unicorn/no-null
   return null
 }
 

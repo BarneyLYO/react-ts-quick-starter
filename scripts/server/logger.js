@@ -1,6 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable unicorn/prefer-module */
 const chalk = require('chalk')
 const ip = require('ip')
 const { LOGGER_DIVIDER } = require('../constant')
