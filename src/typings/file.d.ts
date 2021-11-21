@@ -27,3 +27,8 @@ declare module '*.png' {
   const path: string
   export default path
 }
+
+declare module '*.barney' {
+  const value: string
+  export default value
+}

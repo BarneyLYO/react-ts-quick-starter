@@ -1,4 +1,5 @@
 /* plugins */
+const { resolve } = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const {
   CleanWebpackPlugin,
@@ -233,6 +234,11 @@ const BABEL_LOADER = {
   exclude: /node_modules/,
 }
 
+const BARNEY_LOADER = {
+  test: /\.barney$/,
+  loader: 'barney-loader',
+}
+
 const rules = [
   STYLE_LODERS,
   LESS_LODERS,
@@ -240,6 +246,7 @@ const rules = [
   FONT_LOADER,
   IMG_LOADER,
   BABEL_LOADER,
+  BARNEY_LOADER,
 ]
 
 // const terserPlugin = new TeserPlugin({
@@ -270,6 +277,13 @@ const rules = [
 //   minimizer,
 // }
 
+const resolveLoader = {
+  modules: [
+    resolve(__dirname, '..', '..', 'node_modules'),
+    resolve(__dirname, '..', 'loaders'),
+  ],
+}
+
 module.exports = {
   entry,
   cache,
@@ -278,4 +292,5 @@ module.exports = {
   module: {
     rules,
   },
+  resolveLoader,
 }
