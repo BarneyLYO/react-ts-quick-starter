@@ -236,7 +236,7 @@ const BABEL_LOADER = {
 
 const BARNEY_LOADER = {
   test: /\.barney$/,
-  loader: 'barney-loader',
+  use: ['barney-loader', 'barney-pre-loader'],
 }
 
 const rules = [

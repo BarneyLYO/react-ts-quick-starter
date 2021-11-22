@@ -5,9 +5,11 @@ const TerserPlugin = require('terser-webpack-plugin')
 const {
   CleanWebpackPlugin,
 } = require('clean-webpack-plugin')
+
 const {
   BundleAnalyzerPlugin,
 } = require('webpack-bundle-analyzer')
+const CopyrightPlugin = require('../plugins/copyright-webpack-plugin')
 const common = require('./webpack.common')
 const paths = require('../paths')
 const {
@@ -32,6 +34,7 @@ const plugins = [
     filename: 'css/[name].[contenthash:8].css',
     chunkFilename: 'css/[name].[contenthash:8].chunk.css',
   }),
+  new CopyrightPlugin(),
 ]
 
 if (shouldOpenAnalyzer) {

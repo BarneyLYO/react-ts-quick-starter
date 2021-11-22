@@ -151,6 +151,14 @@ will be
 
 [post, normal, inline, pre]
 
+#### loader order
+
+<img src="./img/loader-orders.png">
+
+#### pitch stop
+
+<img src="./img/pitch-bail.png">
+
 ## loader runner
 
 Loader is actually method, when input a module, Webpack use loader-runner for organize and call loader
@@ -179,6 +187,10 @@ Loader is actually method, when input a module, Webpack use loader-runner for or
   OUTPUT,
 ]
 ```
+
+### How loader works
+
+<img src="./img/how-loader-works.png" />
 
 ## Local Dev
 

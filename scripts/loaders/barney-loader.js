@@ -1,8 +1,11 @@
 const GenerateTemplate = (cnt) => `
-    const value = ${cnt}
-    export default value
+    export default '${cnt}'
   `
 
-module.exports = function barneyLoader(cnt, map, meta) {
-  return GenerateTemplate(cnt)
+module.exports = function barneyLoader(
+  cnt,
+  map = null,
+  meta = null,
+) {
+  return GenerateTemplate(String(cnt).toString())
 }
