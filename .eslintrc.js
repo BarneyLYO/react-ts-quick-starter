@@ -68,6 +68,7 @@ const typescriptRules = {
   '@typescript-eslint/no-explicit-any': OFF,
   '@typescript-eslint/no-use-before-define': ERROR,
   '@typescript-eslint/no-unused-vars': WARN,
+  '@typescript-eslint/ban-ts-comment': OFF,
 }
 
 const reactRules = {
@@ -89,7 +90,7 @@ const reactRules = {
       unnamedComponents: 'arrow-function',
     },
   ],
-  'jsx-quotes': [ERROR, 'prefer-single'],
+  'jsx-quotes': OFF,
   'jsx-a11y/click-events-have-key-events': OFF,
   'jsx-a11y/no-noninteractive-element-interactions': OFF,
   'jsx-a11y/no-static-element-interactions': OFF,
@@ -105,6 +106,7 @@ const commonRules = {
 }
 
 const rules = {
+  ...commonRules,
   ...importRules,
   ...typescriptRules,
   ...reactRules,
